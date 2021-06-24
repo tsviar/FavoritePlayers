@@ -1,0 +1,72 @@
+:root {
+    --app-text-color: white;
+    --app-bg-color: #232f3e;
+
+
+    --primary-light: #4791db;
+    --primary-main: #1976d2;
+    --primary-dark: #115293;
+
+    --secondary-light: #e33371;
+    --secondary-main: #dc004e;
+    --secondary-dark: #9a0036;
+    --secondary-contrastText: #ffcc00;
+
+    --error-light: #e57373;
+    --error-main: #f44336;
+    --error-dark: #d32f2f;
+    --error-contrastText: #ffcc00;
+
+    --warning-light: #ffb74d;
+    --warning-main: #ff9800;
+    --warning-dark: #f57c00;
+    --warning-contrastText: #ffcc00;
+
+
+    --info-light: #64b5f6;
+    --info-main: #2196f3;
+    --info-dark: #1976d2;
+    --info-vdark: darkslateblue;
+    --info-contrastText: #ffcc00;
+
+    --success-light: #81c784;
+    --success-main: #4caf50;
+    --success-dark: #388e3c;
+    --success-contrastText: #ffcc00;
+
+    --top_menu-light: #33eb91;
+    --top_menu-main: #00e676;
+    --top_menu-dark: #00a152;
+    --top_menu-text_color: #FFF;
+    --top_menu-text_color_light: mintcream;
+    --top_menu-text_color_dark: #263238;
+    --top_menu-contrastText: #ffcc00;
+
+    --header-light: #5381ff;
+    --header-main: #2962ff;
+    --header-dark: #1c44b2;
+    --header-text_color: #18ffff;
+    --header-text_hoover_color: #b2ff59;
+
+    /* --app-NBA-blue: #1c4085; */
+    --app-NBA-blue: #1d428a;
+    --app-NBA-blue-rgb: rgb(29, 66, 138);
+    --app-NBA-red: #c8102e;
+    --app-NBA-red-rgb: rgb(200, 16, 46);
+    /* --app-NBA-red: #c30829; */
+    --app-NBA-white: #ffffff;
+
+    --add-btn-light: #baffff;
+    --add-btn-main: #84ffff;
+    --add-btn-dark: #4bcbcc;
+    --add-btn-text_color: #18ffff;
+    --add-btn-text_hoover_color: #b2ff59;
+
+    --row-style-selected: paleturquoise;
+    --row-style: skyblue;
+    --list-box-shadow: dimGray;
+}
+
+
+
+
