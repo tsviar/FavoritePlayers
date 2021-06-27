@@ -32,6 +32,7 @@ import {
     IFavoritsList3,
 
     Props,
+    TAction,
     } from "../store/types";
 
    import {
@@ -132,24 +133,7 @@ const PlayersListView: FC = () => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
 
-  //  const updateFavorite = ( item: IPlayerInfo,
-  //                           add_or_remove: boolean
-  //                         ) =>  {
-  //     let list = favorits_list;
 
-  //     if(add_or_remove) {
-  //       const new_list = list.filter( fav => fav.id !== item.id);
-
-  //       set_favorits_list(new_list) ;
-  //     }
-
-  //     if(add_or_remove) {
-
-  //       list.push(item);
-  //       set_favorits_list(list) ;
-  //     }
-
-  //  };
 
     // Note:
     //create_list_ui now gets 2 inputs: list_data, update_selected_location
@@ -167,9 +151,10 @@ const PlayersListView: FC = () => {
                               //      add_or_remove: boolean )
                               //      => void
                             ) =>
-      items.map( (item: IPlayerInfo)  => {
+      ( items as IPlayersList).map( (item: IPlayerInfo)  => {
         let cardProps = {
            playerInfo:  item,
+          btnAction: TAction.Remove,
           //  update_func_def: updateFavorite,
         } as  CardProps;
 
@@ -191,9 +176,7 @@ const PlayersListView: FC = () => {
       >
           <CardListWrapper>
             <CardsList>
-              {create_list_ui(filtered_list,
-              // updateFavorite
-              )}
+              {create_list_ui( filtered_list )}
             </CardsList>
           </CardListWrapper>
         </Container>

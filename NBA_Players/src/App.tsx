@@ -12,7 +12,7 @@ import { WrapperDataManager } from "./store/DataManager";
 
 // import HomePage from "./components/HomePage";
 import PlayersListView from "./components/PlayersListView";
-
+import FavoritsListView from "./components/FavoritsListView";
 
 const App = () => {
 
@@ -45,6 +45,7 @@ const App = () => {
         <WrapperDataManager>
 
           <LeftContainer>
+            <FavoritsListView />
           </LeftContainer>
 
           <RightContainer>

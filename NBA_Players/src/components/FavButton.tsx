@@ -9,6 +9,7 @@ import React, {
   ReactNode
 } from "react";
 
+
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,7 +36,13 @@ import {
     IFavoritsList3,
 
     Props,
-    } from "../store/types";
+    TAction,
+ } from "../store/types";
+
+import {
+    GlobalContextValue,
+    StateDataManager
+} from "../store/DataManager";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
@@ -65,14 +72,18 @@ export const FavButton1 = (props: ButtonProps): React.ReactElement<ButtonProps> 
 
 export interface IButtonProps {
     children?: React.ReactNode;
-    props?: any;
-    pressed?: boolean;
-    onClick?: any;
+    props?:    any;
+    playerId?: number;
+    pressed?:  boolean;
+    opType?:    TAction;
+    onClick?:  any;
 }
+
+
 
 export const FavButton2: React.FC<IButtonProps> = ({ onClick,  children, ...props }) => {
 
-    const { pressed, ...rest } = props;
+     let { playerId,  pressed, opType, ...rest } = props;
 
     return (
         <ButtonStyles {...rest} onClick={onClick}>
@@ -82,40 +93,72 @@ export const FavButton2: React.FC<IButtonProps> = ({ onClick,  children, ...prop
     );
 };
 
-//  pressed,
-
-export const FavButton3: React.FC<IButtonProps> = ({  onClick,  children, ...props }) => {
-
-   const { pressed, ...rest } = props;
-
-   const clicked = (event: any) => {
-            // event.target.style.color = "white";
-           event.target.style.color = "red";
-           onClick( false );
-   }
 
 
-    const themeFav = {
-    fg: "red",
-    };
 
-    const themeUnFav = {
-    fg: "white",
-    };
+
+
+
+export const FavButton3: React.FC<IButtonProps> = ({ onClick, children, ...props }) => {
+
+    const {
+      favorits_list,
+      favorits_counter,
+    } =  useContext<GlobalContextValue>(StateDataManager);
+
+
+    let { playerId,  pressed, opType, ...rest } = props;
+
+    if (undefined === pressed) pressed= false;
+
+
+
+
+    const clicked = (event: any) => {
+                // event.target.style.color = "white";
+            event.target.style.color = "red";
+
+            // onClick( false );
+            onClick( opType );
+    }
+
+
+    useEffect(() => {
+
+        console.log('useEffect start', favorits_list, favorits_list.length, playerId, pressed, );
+
+        const found = favorits_list.find(item => item.id === playerId);
+
+        // if(!found && !pressed ) {
+
+           console.log('not found', found, pressed, favorits_list);
+           const btn_id = document.getElementById('FAV-click-button') ;
+
+           btn_id!.style.color = ( found || pressed ) ?'red' : 'black';
+
+        // } else if (found || pressed) {
+            console.log('found || pressed', found, pressed, favorits_list);
+        // }
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [favorits_counter] );
+
+
+
 
     return (
 
-            <ButtonStyles id="FAV-click-button" {...props} onClick={  clicked }>
-                {children}
+        <ButtonStyles id="FAV-click-button" {...props} onClick={  clicked }>
+            {children}
 
-                <i className="fa fa-heart" aria-hidden="true"></i>
+            <i className="fa fa-heart" aria-hidden="true"></i>
 
-            </ButtonStyles>
+        </ButtonStyles>
     );
 };
 
 
-const ButtonStyles = styled.button`
+const ButtonStyles = styled.button<IButtonProps>`
 
     border: 1px solid black;
     height: 30%;
@@ -123,7 +166,8 @@ const ButtonStyles = styled.button`
     margin: 4 0 0 0;
     /* width: 1rem; */
     border-radius: 50%;
-    color: white;
+    color: black;
+     /* color: white; */
      $ { ({props.pressed })  {
           color: red;
        }

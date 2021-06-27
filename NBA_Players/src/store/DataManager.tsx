@@ -38,7 +38,7 @@ players_list: IPlayersList  ,
 filtered_list: IPlayersList  ,
 favorits_list: IFavoritsList  ,
 loading_profiles: boolean,
-player_unfav_id: number,
+favorits_counter: number,
 error_message: string,
 
 // },
@@ -48,7 +48,7 @@ set_players_list: Dispatch<any>,
 set_filtered_list: Dispatch<any>,
 set_favorits_list: Dispatch<any>,
 set_loading_profiles: Dispatch<any>,
-set_player_unfav_id: Dispatch<any>,
+set_favorits_counter: Dispatch<any>,
 set_error_message: Dispatch<any>,
 
 // }
@@ -70,11 +70,11 @@ const WrapperDataManager: FC = ({ children }: Props) => {
   const [favorits_list, set_favorits_list] =
                             useState<IPlayersList>([]);
 
-  const [loading_profiles, set_loading_profiles] =
-                                useState(true);
+  const [loading_profiles, set_loading_profiles] = useState(true);
 
-  const [player_unfav_id, set_player_unfav_id] =
-                              useState<number>(-1);
+  const [favorits_counter, set_favorits_counter] = useState<number>(0);
+
+
   const [error_message, set_error_message] = useState("");
 
 
@@ -88,7 +88,7 @@ const WrapperDataManager: FC = ({ children }: Props) => {
     filtered_list,
     favorits_list,
     loading_profiles,
-    player_unfav_id,
+    favorits_counter,
     error_message
   };
 
@@ -99,7 +99,7 @@ const WrapperDataManager: FC = ({ children }: Props) => {
     set_filtered_list,
     set_favorits_list,
     set_loading_profiles,
-    set_player_unfav_id,
+    set_favorits_counter,
     set_error_message,
   };
 

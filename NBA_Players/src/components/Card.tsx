@@ -29,6 +29,7 @@ import {
     IFavoritsList3,
 
     Props,
+    TAction,
 } from "../store/types";
 
   import {
@@ -56,6 +57,7 @@ export interface CardProps {
   update_func_def: (  item: IPlayerInfo,
                       add_or_remove: boolean )
                       => void;
+  btnAction?: TAction;
 }
 
 
@@ -67,7 +69,7 @@ export interface CardProps {
 
 
 
-const Card: FC <CardProps> = ( {playerInfo ,
+const Card: FC <CardProps> = ( {playerInfo , btnAction
 //  update_func_def
  } ) => {
     // console.log('name:',name) {className, children}
@@ -75,64 +77,105 @@ const Card: FC <CardProps> = ( {playerInfo ,
 
 
     const {
+      players_list,
+      set_players_list,
       filtered_list,
       set_filtered_list,
       favorits_list,
       set_favorits_list,
+      favorits_counter,
+      set_favorits_counter,
     } =  useContext<GlobalContextValue>(StateDataManager);
 
 
 
-    const updateFavorite = (  add_or_remove: boolean
-                            ) =>  {
+    const updateFavorite = (  add_or_remove:  TAction, ) =>  {
+
+        let all_list = players_list;
+        let fav_list = favorits_list;
+        let filterd =  filtered_list;
+
+        const index = all_list.findIndex(fav => fav.id === playerInfo.id);
+        const filtered_index = filterd.findIndex(item => item.id === playerInfo.id);
+
+        // console.log('start', ' filtered', filtered_index, filterd, 'all', index, all_list);
 
 
-        let list = favorits_list;
+        if( TAction.Remove === add_or_remove) {
 
-        console.log(add_or_remove, playerInfo, list);
+        // remove
+        //--------------------------
+          playerInfo.favorite = false;
 
-
-        if(add_or_remove) {
-          const new_list = list.filter( fav => fav.id !== playerInfo.id);
-
-          console.log('Remove', add_or_remove, playerInfo, new_list);
-          set_favorits_list(new_list) ;
+          const new_fav_list = fav_list.filter( fav => fav.id !== playerInfo.id);
+          fav_list = new_fav_list;
 
         } else {
-          list.push(playerInfo);
-          console.log('add', add_or_remove, playerInfo, list);
 
-          set_favorits_list(list) ;
+        // Add
+        //--------------------------
 
+         playerInfo.favorite = true;
+
+          if (undefined === fav_list.find(fav => fav.id === playerInfo.id)) {
+            fav_list.push(playerInfo);
+          }
         }
+
+
+        if (index > -1) {
+          all_list[index] = playerInfo;
+          set_players_list(all_list);
+        }
+
+        if (filtered_index > -1) {
+          filterd[filtered_index] = playerInfo;
+           set_filtered_list( filterd);
+        }
+
+
+
+        // console.log('playerInfo ', playerInfo , 'filtered', filtered_index, filterd, 'all', index, all_list);
+
+        // console.log( add_or_remove, playerInfo,  'fav list ',fav_list,);
+
+
+        set_favorits_list(fav_list) ;
+
+        set_favorits_counter(favorits_counter + 1);
+
 
     };
 
+      const addAction = TAction.Add;
+
+      return (
 
 
-    return (
-      <Box>
-        <TextsBox>
-          <Title>{playerInfo.first_name} {playerInfo.last_name}</Title>
-          <Title2> position: {playerInfo.position} </Title2>
-           <MsgText><em>
-              Team: </em> {playerInfo.team.full_name}
-          </MsgText>
-          {/* <MsgText>{address} </MsgText> */}
-          <MsgText><em>
-              Height (ft./ich.): </em> {playerInfo.height_feet} / {playerInfo.height_inches}
-          </MsgText>
+        <Box>
+          <TextsBox>
+            <Title>{playerInfo.first_name} {playerInfo.last_name}</Title>
+            <Title2> position: {playerInfo.position} </Title2>
+            <MsgText><em>
+                Team: </em> {playerInfo.team.full_name}
+            </MsgText>
+            {/* <MsgText>{address} </MsgText> */}
+            <MsgText><em>
+                Height (ft./ich.): </em> {playerInfo.height_feet} / {playerInfo.height_inches}
+            </MsgText>
 
-        </TextsBox>
+          </TextsBox>
 
-        <FavBox>
-           <FavButton3
-             onClick={ updateFavorite }
-             pressed={playerInfo.favorite}
-           />
-        </FavBox>
-      </Box>
-    );
+          <FavBox>
+            <FavButton3
+              onClick={ updateFavorite }
+              playerId={playerInfo.id}
+              pressed={playerInfo.favorite}
+              opType={addAction}
+            />
+          </FavBox>
+        </Box>
+      );
   };
 
 

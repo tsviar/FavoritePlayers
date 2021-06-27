@@ -139,7 +139,15 @@ export interface IPlayerInfo {
 //     IPlayerInfo[];
 // }
 
+export enum TAction {
+    Remove =0,
+    Add = 1,
+}
 
+
+export interface IPlayersList4 {
+    [index: number]: IPlayerInfo;
+}
 
 export interface IPlayersList extends Array<IPlayerInfo> { }
 export interface IPlayersList2 {
