@@ -154,7 +154,7 @@ const PlayersListView: FC = () => {
       ( items as IPlayersList).map( (item: IPlayerInfo)  => {
         let cardProps = {
            playerInfo:  item,
-          btnAction: TAction.Remove,
+          btnAction: TAction.Add,
           //  update_func_def: updateFavorite,
         } as  CardProps;
 

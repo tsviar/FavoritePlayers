@@ -75,7 +75,8 @@ export interface IButtonProps {
     props?:    any;
     playerId?: number;
     pressed?:  boolean;
-    opType?:    TAction;
+    opType?:   TAction;
+    color?:    string;
     onClick?:  any;
 }
 
@@ -102,6 +103,7 @@ export const FavButton2: React.FC<IButtonProps> = ({ onClick,  children, ...prop
 export const FavButton3: React.FC<IButtonProps> = ({ onClick, children, ...props }) => {
 
     const {
+      players_list,
       favorits_list,
       favorits_counter,
     } =  useContext<GlobalContextValue>(StateDataManager);
@@ -109,49 +111,72 @@ export const FavButton3: React.FC<IButtonProps> = ({ onClick, children, ...props
 
     let { playerId,  pressed, opType, ...rest } = props;
 
+    const [btn_color, set_btn_color] = useState('black');
+    const [btn_id, set_btn_id] = useState(`FAVbtn-${playerId}-${opType}`);
+
     if (undefined === pressed) pressed= false;
 
 
 
 
     const clicked = (event: any) => {
-                // event.target.style.color = "white";
-            event.target.style.color = "red";
 
-            // onClick( false );
-            onClick( opType );
+       onClick( opType );
+
+        const found = favorits_list.find(item => item.id === playerId);
+
+        if(found !== undefined) {
+            event.target.style.color = "red";
+            set_btn_color('red');
+        } else {
+
+            event.target.style.color = 'black';
+            set_btn_color('black');
+        }
+
     }
 
 
     useEffect(() => {
 
-        console.log('useEffect start', favorits_list, favorits_list.length, playerId, pressed, );
-
         const found = favorits_list.find(item => item.id === playerId);
+        // const btn_id2 = document.getElementById(btn_id!) ;
 
-        // if(!found && !pressed ) {
 
-           console.log('not found', found, pressed, favorits_list);
-           const btn_id = document.getElementById('FAV-click-button') ;
-
-           btn_id!.style.color = ( found || pressed ) ?'red' : 'black';
-
-        // } else if (found || pressed) {
-            console.log('found || pressed', found, pressed, favorits_list);
-        // }
+        if(found !== undefined) {
+            // btn_id2!.style.color = "red";
+            set_btn_color('red');
+        } else {
+            // btn_id2!.style.color = 'black';
+            set_btn_color('black');
+        }
 
         //eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [favorits_counter] );
+    }, [favorits_counter, favorits_list, favorits_list.length] );
+
+
+
+
+   useEffect(() => {
+
+        const btn_id2 = document.getElementById(btn_id!) ;
+
+        btn_id2!.style.color = btn_color;
+
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [btn_color] );
+
 
 
 
 
     return (
 
-        <ButtonStyles id="FAV-click-button" {...props} onClick={  clicked }>
+
+        <ButtonStyles id={btn_id} {...props} color={btn_color} onClick={  clicked } >
             {children}
 
-            <i className="fa fa-heart" aria-hidden="true"></i>
+            <i className="fa fa-heart" aria-hidden="true" style={{color: btn_color}}></i>
 
         </ButtonStyles>
     );
@@ -166,11 +191,11 @@ const ButtonStyles = styled.button<IButtonProps>`
     margin: 4 0 0 0;
     /* width: 1rem; */
     border-radius: 50%;
-    color: black;
-     /* color: white; */
-     $ { ({props.pressed })  {
-          color: red;
-       }
+
+    color: ${  props => {
+        /* console.log('props color', props.color); */
+        return props.color;
+        }};
     backgrounf-color: #050505;
 
 `;

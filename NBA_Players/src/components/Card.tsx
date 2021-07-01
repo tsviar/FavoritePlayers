@@ -147,7 +147,7 @@ const Card: FC <CardProps> = ( {playerInfo , btnAction
 
     };
 
-      const addAction = TAction.Add;
+      // const addAction = TAction.Add;
 
       return (
 
@@ -171,7 +171,7 @@ const Card: FC <CardProps> = ( {playerInfo , btnAction
               onClick={ updateFavorite }
               playerId={playerInfo.id}
               pressed={playerInfo.favorite}
-              opType={addAction}
+              opType={btnAction}
             />
           </FavBox>
         </Box>
